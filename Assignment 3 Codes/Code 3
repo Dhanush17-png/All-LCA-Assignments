@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int main(){
+    int a = 25;
+    unsigned int b = 300;
+    char ch = '2';
+    float f = 5.75f;
+    double d = 123.456789;
+    long int li = 1234567890L;
+    char str[] = "Hello C";
+
+    printf("Integer (%d): %d\n", a, a);
+    printf("Unsigned (%u): %u\n", b, b);
+    printf("Character (%c): %c\n", ch, ch);
+    printf("Float (%f): %f\n", f, f);
+    printf("Double (%lf): %lf\n", d, d);
+    printf("Long int (%ld): %ld\n", li, li);
+    printf("String(%s): %s\n", str, str);
+    printf("Hexadecimal (%x/%X): %x/%X\n", a, a, a, a);
+    printf("Octal (%o): %o\n", a, a);
+    printf("Address (%p): %p\n", (void*)&a, (void*)&a);
+    printf("Percent (%%): %%\n");
+    return 0;
+}
