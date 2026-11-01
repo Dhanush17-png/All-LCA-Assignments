@@ -1,0 +1,59 @@
+FACTORIAL BY RECURSION
+
+#include <stdio.h>
+
+// Recursive function to calculate factorial
+int fact(int n) {
+    if (n == 0 || n == 1) {
+        return 1;
+    } else {
+        return n * fact(n - 1);
+    }
+}
+
+int main() {
+    int n;
+    printf("Enter any number : ");
+    scanf("%d", &n);
+    
+    // Call the correct function name 'fact'
+    int result = fact(n);
+    
+    // Print the calculated result
+    printf("Factorial of entered number: %d\n", result);
+    
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+FACTORIAL BY ITERATION
+
+#include <stdio.h>
+
+int main() {
+    int n, fact, i;
+
+    printf("Enter any number: ");
+    scanf("%d", &n);
+
+    fact = 1;
+    // Changed 'i = 01' to 'i = 1' for standard formatting
+    for (i = 1; i <= n; i++) {
+        fact = fact * i; // Added the missing semicolon (;) here
+    }
+
+    printf("Factorial of Entered Number: %d\n", fact);
+
+    return 0;
+}
+
+
+
