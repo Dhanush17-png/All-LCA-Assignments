@@ -1,0 +1,148 @@
+
+#include <stdio.h>
+#include <string.h>
+
+struct Sensor
+{
+    int id;
+    char type[20];
+    float reading;
+    float min;
+    float max;
+    char status[10];
+};
+
+void inputSensors(struct Sensor *s, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        printf("\nEnter details for Sensor %d:\n", i + 1);
+
+        printf("Sensor ID: ");
+        scanf("%d", &(s + i)->id);
+
+        printf("Sensor Type: ");
+        scanf("%19s", (s + i)->type);
+
+        printf("Measured Reading: ");
+        scanf("%f", &(s + i)->reading);
+
+        printf("Minimum Value: ");
+        scanf("%f", &(s + i)->min);
+
+        printf("Maximum Value: ");
+        scanf("%f", &(s + i)->max);
+    }
+}
+
+void checkStatus(struct Sensor *s, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        if((s + i)->reading >= (s + i)->min &&
+           (s + i)->reading <= (s + i)->max)
+        {
+            strcpy((s + i)->status, "Normal");
+        }
+        else
+        {
+            strcpy((s + i)->status, "Abnormal");
+        }
+    }
+}
+
+void displaySensors(struct Sensor *s, int n)
+{
+    printf("\n--- Sensor Report ---\n");
+    printf("ID\tType\tReading\tRange\t\tStatus\n");
+
+    for(int i = 0; i < n; i++)
+    {
+        printf("%d\t%s\t%.2f\t%.2f-%.2f\t%s\n",
+        (s + i)->id,
+        (s + i)->type,
+        (s + i)->reading,
+        (s + i)->min,
+        (s + i)->max,
+        (s + i)->status);
+    }
+}
+
+float averageReading(struct Sensor *s, int n, char type[])
+{
+    float sum = 0;
+    int count = 0;
+
+    for(int i = 0; i < n; i++)
+    {
+        if(strcmp((s + i)->type, type) == 0)
+        {
+            sum += (s + i)->reading;
+            count++;
+        }
+    }
+
+    if(count == 0)
+        return -1;
+
+    return sum / count;
+}
+
+void displayAbnormal(struct Sensor *s, int n)
+{
+    int flag = 0;
+
+    printf("\nAbnormal Sensors:\n");
+
+    for(int i = 0; i < n; i++)
+    {
+        if(strcmp((s + i)->status, "Abnormal") == 0)
+        {
+            printf("ID: %d | Type: %s | Reading: %.2f\n",
+            (s + i)->id,
+            (s + i)->type,
+            (s + i)->reading);
+
+            flag = 1;
+        }
+    }
+
+    if(flag == 0)
+        printf("None\n");
+}
+
+int main()
+{
+    struct Sensor s[20];
+    int n;
+    char type[20];
+
+    printf("Enter number of sensors: ");
+    scanf("%d", &n);
+
+    if(n < 1 || n > 20)
+    {
+        printf("Invalid number of sensors.\n");
+        return 0;
+    }
+
+    inputSensors(s, n);
+
+    checkStatus(s, n);
+
+    displaySensors(s, n);
+
+    printf("\nEnter sensor type to find average: ");
+    scanf("%19s", type);
+
+    float avg = averageReading(s, n, type);
+
+    if(avg == -1)
+        printf("No sensor found for this type.\n");
+    else
+        printf("Average %s reading: %.2f\n", type, avg);
+
+    displayAbnormal(s, n);
+
+    return 0;
+}
