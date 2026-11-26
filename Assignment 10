@@ -1,0 +1,74 @@
+
+#include <stdio.h>
+#include <time.h>
+
+int main()
+{
+    int year, month, day;
+    int daysInMonth[] = {
+        31, 28, 31, 30, 31, 30,
+        31, 31, 30, 31, 30, 31
+    };
+
+    char *months[] = {
+        "January", "February", "March",
+        "April", "May", "June",
+        "July", "August", "September",
+        "October", "November", "December"
+    };
+
+    printf("Enter year: ");
+    scanf("%d", &year);
+
+    if(year < 1 || year > 9999)
+    {
+        printf("Invalid year.\n");
+        return 0;
+    }
+
+    // Check leap year
+    if((year % 400 == 0) ||
+       (year % 4 == 0 && year % 100 != 0))
+    {
+        daysInMonth[1] = 29;
+    }
+
+    printf("\n          CALENDAR OF %d\n", year);
+
+    for(month = 0; month < 12; month++)
+    {
+        struct tm date = {0};
+
+        date.tm_year = year - 1900;
+        date.tm_mon = month;
+        date.tm_mday = 1;
+
+        mktime(&date);
+
+        int firstDay = date.tm_wday;
+
+        printf("\n\n       %s %d\n", months[month], year);
+        printf("Sun Mon Tue Wed Thu Fri Sat\n");
+
+        // Print spaces before the first date
+        for(int i = 0; i < firstDay; i++)
+        {
+            printf("    ");
+        }
+
+        // Print all dates of the month
+        for(day = 1; day <= daysInMonth[month]; day++)
+        {
+            printf("%3d ", day);
+
+            if((day + firstDay) % 7 == 0)
+            {
+                printf("\n");
+            }
+        }
+
+        printf("\n");
+    }
+
+    return 0;
+}
